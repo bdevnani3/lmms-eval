@@ -410,7 +410,15 @@ def evaluate(
         if ("group_alias" in configs[task_name]) and (group_name not in task_group_alias) and (group_name is not None):
             task_group_alias[group_name] = configs[task_name]["group_alias"]
 
-        limit = get_sample_size(task, limit)
+        if cli_args.limit_num_examples is not None:
+            limit = cli_args.limit_num_examples
+        else:
+            limit = get_sample_size(task, limit)
+        task.extra_args = {"slowfast_temporal_aggregation": cli_args.temporal_aggregation,
+                           "im_resize_shape": cli_args.im_resize_shape,
+                           "max_frames_num": cli_args.max_frames_num,
+                           "cache_clip_similarity": cli_args.cache_clip_similarity}
+
         task.build_all_requests(
             limit=limit,
             rank=lm.rank,
@@ -466,6 +474,7 @@ def evaluate(
 
     RANK = lm.rank
     WORLD_SIZE = lm.world_size
+    print(f"**********Postprocessing - RANK: {RANK}, WORLD_SIZE: {WORLD_SIZE}")
     ### Postprocess outputs ###
     # TODO: del model here, maybe (idea: allow user to specify device of e.g. reward model separately)
     for task_output in eval_tasks:

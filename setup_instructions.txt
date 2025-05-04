@@ -1,0 +1,18 @@
+----------------------
+Initial code set up - need to do just once
+----------------------
+conda create -n final_lmms_eval python=3.10
+conda activate final_lmms_eval
+mkdir final_lmms_eval && cd final_lmms_eval
+git clone git@github.com:bdevnani3/LLaVA-NeXT.git
+git clone git@github.com:bdevnani3/lmms-eval.git
+cd lmms_eval && pip install -e . && cd ..
+cd LLaVA-NeXT && pip install -e .
+
+# Environment variables set up
+set ROOT_ABSOLUTE_PATH in lmms-eval/__final_expts/source.sh
+
+# Run experiments in lmms-eval/__final_expts
+Eg: bash __final_expts/baselines/videomme.sh
+
+

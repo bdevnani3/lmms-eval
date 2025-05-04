@@ -786,6 +786,7 @@ class ConfigurableTask(Task):
                     eval_logger.warning(f'Both target_delimiter and target choice: "{choice}" have whitespace')
                 elif (not delimiter_has_whitespace) and (not choice_has_whitespace):
                     eval_logger.warning(f'Both target_delimiter "{self.config.target_delimiter}" and target choice: "{choice}" do not have whitespace, ignore if the language you are evaluating on does not require/use whitespace')
+        self.extra_args = None
 
     def _prepare_model_specific_config(self):
         self.lmms_eval_specific_kwargs = self.config.lmms_eval_specific_kwargs
@@ -1452,7 +1453,7 @@ class ConfigurableTask(Task):
             return request_list
 
         elif self.OUTPUT_TYPE == "generate_until":
-            arguments = (ctx, copy.deepcopy(self.config.generation_kwargs), self.doc_to_visual, doc_id, self.config.task, split)
+            arguments = (ctx, copy.deepcopy(self.config.generation_kwargs), self.doc_to_visual, doc_id, self.config.task, split, copy.deepcopy(self.extra_args))
         elif self.OUTPUT_TYPE == "generate_until_multi_round":
             arguments = (ctx, copy.deepcopy(self.config.generation_kwargs), self.doc_to_visual, partial(self.config.doc_to_text, lmms_eval_specific_kwargs=self.lmms_eval_specific_kwargs), doc_id, self.config.task, split)
         return Instance(request_type=self.OUTPUT_TYPE, arguments=arguments, idx=0, **kwargs)

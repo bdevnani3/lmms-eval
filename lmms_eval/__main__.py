@@ -264,6 +264,43 @@ def parse_eval_args() -> argparse.Namespace:
         action="store_true",
         help="Sets trust_remote_code to True to execute code to create HF Datasets from the Hub",
     )
+    parser.add_argument(
+        "--temporal_aggregation",
+        type=str,
+        default=None,
+        help="Temporal aggregation to use for video tasks",
+    )
+    parser.add_argument(
+        "--im_resize_shape",
+        type=int,
+        default=14,
+        help="Resize shape for video tasks",
+    )
+    parser.add_argument(
+        "--max_frames_num",
+        type=int,
+        default=32,
+        help="Max number of frames to use for video tasks",
+    )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        default=False,
+        help="Whether to run in debug mode",
+    )
+    parser.add_argument(
+        "--limit_num_examples",
+        type=int,
+        default=None,
+        help="Limit the number of examples to run",
+    )
+    parser.add_argument(
+        "--cache_clip_similarity",
+        type=str,
+        default=None,
+        help="Cache clip similarity for video tasks. Provide the path to the file containing the clip similarity.",
+    )
+    
     parser.add_argument("--process_with_media", action="store_true", help="Whether you will process you dataset with audio, image. By default set to False" "In case some benchmarks need to be processed with media, set this flag to True.")
     args = parser.parse_args()
     return args
@@ -468,6 +505,10 @@ def cli_evaluate_single(args: Union[argparse.Namespace, None] = None) -> None:
     request_caching_args = request_caching_arg_to_dict(cache_requests=args.cache_requests)
     datetime_str = utils.get_datetime_str(timezone=args.timezone)
 
+    print("*********Temporal aggregation: ", args.temporal_aggregation)
+    print("*********im_resize_shape: ", args.im_resize_shape)
+    print("*********max_frames_num: ", args.max_frames_num)
+    print("*********DEBUG MODE************ ", args.debug)
     results = evaluator.simple_evaluate(
         model=args.model,
         model_args=args.model_args,

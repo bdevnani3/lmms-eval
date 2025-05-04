@@ -377,10 +377,12 @@ class Llava_OneVision(lmms):
         else:
             vr = VideoReader(video_path[0], ctx=cpu(0))
         total_frame_num = len(vr)
+        fps = vr.get_avg_fps()
+        duration = total_frame_num / fps
         uniform_sampled_frames = np.linspace(0, total_frame_num - 1, max_frames_num, dtype=int)
         frame_idx = uniform_sampled_frames.tolist()
         spare_frames = vr.get_batch(frame_idx).asnumpy()
-        return spare_frames  # (frames, height, width, channels)
+        return spare_frames, duration  # (frames, height, width, channels)
 
     def generate_until(self, requests: List[Instance]) -> List[str]:
         res = []
@@ -406,13 +408,20 @@ class Llava_OneVision(lmms):
 
         origin_image_aspect_ratio = getattr(self._config, "image_aspect_ratio", None)
 
+        limit = 50
+
         for chunk in chunks:
-            batched_contexts, all_gen_kwargs, batched_doc_to_visual, batched_doc_id, batched_task, batched_split = zip(*chunk)
+            batched_contexts, all_gen_kwargs, batched_doc_to_visual, batched_doc_id, batched_task, batched_split, extra_args = zip(*chunk)
             task = batched_task[0]
             split = batched_split[0]
             batched_visuals = [batched_doc_to_visual[0](self.task_dict[task][split][ids]) for ids in batched_doc_id]  # [B, N]
             assert len(batched_visuals) == 1
 
+            # Update args
+            temp_args = copy.deepcopy(extra_args[0])
+            temp_args["batched_doc_id"] = batched_doc_id[0]
+            temp_args["task_type"] = task
+            temp_args["cache_clip_similarity"] = extra_args[0]["cache_clip_similarity"]
             # we assume all gen kwargs in the batch are the same
             # this is safe to assume because the `grouper` object ensures it.
             gen_kwargs = all_gen_kwargs[0]
@@ -464,8 +473,8 @@ class Llava_OneVision(lmms):
                     elif type(visual[0]) == str:  # For video task
                         image_tensor = []
                         try:
-                            if self.video_decode_backend == "decord":
-                                frames = self.load_video(visual, self.max_frames_num)
+                            if self.video_decode_backend == "decord":  # bdevnani: This is the entry point for video decoding
+                                frames, duration = self.load_video(visual, temp_args["max_frames_num"])
                             elif self.video_decode_backend == "pyav":
                                 frames = read_video_pyav(visual[0], num_frm=self.max_frames_num)
                             frames = self._image_processor.preprocess(frames, return_tensors="pt")["pixel_values"].half().cuda()
@@ -476,6 +485,7 @@ class Llava_OneVision(lmms):
 
                         task_type = "video"
                         placeholder_count = len(frames) if self.token_strategy == "multiple" else 1
+
 
                 if image_tensor is not None and len(image_tensor) != 0 and DEFAULT_IMAGE_TOKEN not in context:
                     """
@@ -552,11 +562,15 @@ class Llava_OneVision(lmms):
                 gen_kwargs.pop("image_aspect_ratio")
             try:
                 with torch.inference_mode():
-                    cont = self.model.generate(input_ids, attention_mask=attention_masks, pad_token_id=pad_token_ids, images=image_tensor, use_cache=self.use_cache, **gen_kwargs)
+                    cont = self.model.generate(input_ids, attention_mask=attention_masks, pad_token_id=pad_token_ids, images=image_tensor, use_cache=self.use_cache, **gen_kwargs, **temp_args)
                     # cont = self.model.generate(qwen_input_ids, pad_token_id=pad_token_ids, images=image_tensor, use_cache=self.use_cache, **gen_kwargs)
 
                 text_outputs = self.tokenizer.batch_decode(cont, skip_special_tokens=True)
             except Exception as e:
+                if "cache_clip_similarity" in extra_args[0] and extra_args[0]["cache_clip_similarity"] is not None:
+                    # dummy text output
+                    text_outputs = ["A\n"]
+                    continue
                 raise e
 
             text_outputs = [response.strip() for response in text_outputs]
