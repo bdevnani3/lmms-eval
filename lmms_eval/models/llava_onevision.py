@@ -422,6 +422,7 @@ class Llava_OneVision(lmms):
             temp_args["batched_doc_id"] = batched_doc_id[0]
             temp_args["task_type"] = task
             temp_args["cache_clip_similarity"] = extra_args[0]["cache_clip_similarity"]
+            temp_args["text_prompt"] = batched_contexts[0]
             # we assume all gen kwargs in the batch are the same
             # this is safe to assume because the `grouper` object ensures it.
             gen_kwargs = all_gen_kwargs[0]
@@ -570,8 +571,10 @@ class Llava_OneVision(lmms):
                 if "cache_clip_similarity" in extra_args[0] and extra_args[0]["cache_clip_similarity"] is not None:
                     # dummy text output
                     text_outputs = ["A\n"]
+                    pbar.update(1)
                     continue
-                raise e
+                else:
+                    raise e
 
             text_outputs = [response.strip() for response in text_outputs]
             res.extend(text_outputs)

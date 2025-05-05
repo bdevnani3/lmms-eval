@@ -1,9 +1,14 @@
 #!/bin/bash
 
+export TRANSFORMERS_CACHE="/data/jjain45/bhavika"
+export HF_HOME="/data/jjain45/bhavika"
+export HF_DATASETS_CACHE="/data/jjain45/bhavika"
+
 export EXPT_NAME="clip_cache_generation"
 export TASK="videomme"
-source ../source.sh
-# This is here because the flash-attn installation needs to be run on an nvidia gpu
+export OUTPUT_PATH="/data/jjain45/bhavika/results/llava_onevision/${TASK}/${EXPT_NAME}"
+
+# need to install flash-attn on the nvidia gpu
 pip install flash-attn --no-build-isolation --verbose
 
 echo "Generating clip cache for ${TASK} saving clip similarity at ${CACHE_CLIP_SIMILARITY}"

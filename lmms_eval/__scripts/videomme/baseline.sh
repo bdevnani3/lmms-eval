@@ -18,7 +18,7 @@ export HF_HOME=/nethome/bdevnani3/flash/.cache
 export PYTHONIOENCODING=utf-8
 
 accelerate launch \
-    --num_processes=8 \
+    --num_processes=1 \
     --main_process_port 1111 \
     -m lmms_eval  \
     --model llava_onevision \
@@ -28,7 +28,8 @@ accelerate launch \
     --output_path /nethome/bdevnani3/flash/.cache/results/llava_onevision/videomme/${SLURM_JOB_ID} \
     --log_samples \
     --im_resize_shape 16 \
-    --max_frames_num 400 
+    --max_frames_num 32 \
+    --limit_num_examples 10
 
 
 
