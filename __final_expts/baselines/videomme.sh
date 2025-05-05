@@ -16,7 +16,7 @@ accelerate launch \
     -m lmms_eval  \
     --model llava_onevision \
     --model_args pretrained="lmms-lab/llava-onevision-qwen2-7b-ov" \
-    --tasks videomme \
+    --tasks ${TASK}  \
     --batch_size 1 \
     --output_path ${OUTPUT_PATH} \
     --log_samples \

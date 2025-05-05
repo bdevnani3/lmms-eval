@@ -5,7 +5,7 @@ export HF_HOME="/data/jjain45/bhavika"
 export HF_DATASETS_CACHE="/data/jjain45/bhavika"
 
 export EXPT_NAME="clip_cache_generation"
-export TASK="videomme"
+export TASK="longvideobench_val_v"
 export OUTPUT_PATH="/data/jjain45/bhavika/results/llava_onevision/${TASK}/${EXPT_NAME}"
 export CACHE_CLIP_SIMILARITY="/data/jjain45/bhavika/results/llava_onevision/${TASK}/${EXPT_NAME}/clip_cache_similarity/"
 
@@ -20,7 +20,7 @@ accelerate launch \
     -m lmms_eval  \
     --model llava_onevision \
     --model_args pretrained="lmms-lab/llava-onevision-qwen2-7b-ov" \
-    --tasks videomme \
+    --tasks ${TASK} \
     --batch_size 1 \
     --output_path ${OUTPUT_PATH} \
     --log_samples \

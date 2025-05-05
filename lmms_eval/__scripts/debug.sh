@@ -21,16 +21,18 @@ accelerate launch \
     --limit_num_examples 10 \
     --cache_clip_similarity /nethome/bdevnani3/flash/lmms_eval_cache/clip_similarity/videomme
 
+# longvideobench_test_v
+
 accelerate launch \
     --num_processes=1 \
     --main_process_port 1111 \
     -m lmms_eval  \
     --model llava_onevision \
     --model_args pretrained="lmms-lab/llava-onevision-qwen2-7b-ov" \
-    --tasks longvideobench_test_v \
     --batch_size 1 \
     --output_path /nethome/bdevnani3/flash/.cache/results/llava_onevision/videomme/${SLURM_JOB_ID} \
     --log_samples \
     --im_resize_shape 16 \
-    --max_frames_num 30 \
-    --limit_num_examples 20 
+    --max_frames_num 32 \
+    --limit_num_examples 10 \
+    --tasks mmbench_en_dev

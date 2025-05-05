@@ -5,7 +5,7 @@ export HF_HOME="/data/jjain45/bhavika"
 export HF_DATASETS_CACHE="/data/jjain45/bhavika"
 
 export EXPT_NAME="clip_cache_generation"
-export TASK="videomme"
+export TASK="tempcompass_multi_choice"
 export OUTPUT_PATH="/data/jjain45/bhavika/results/llava_onevision/${TASK}/${EXPT_NAME}"
 export CACHE_CLIP_SIMILARITY="/data/jjain45/bhavika/results/llava_onevision/${TASK}/${EXPT_NAME}/clip_cache_similarity/"
 
