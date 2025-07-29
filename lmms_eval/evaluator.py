@@ -417,7 +417,12 @@ def evaluate(
         task.extra_args = {"slowfast_temporal_aggregation": cli_args.temporal_aggregation,
                            "im_resize_shape": cli_args.im_resize_shape,
                            "max_frames_num": cli_args.max_frames_num,
-                           "cache_clip_similarity": cli_args.cache_clip_similarity}
+                           "cache_clip_similarity": cli_args.cache_clip_similarity,
+                           "adaptive_sampling_method": cli_args.adaptive_sampling_method,
+                           "adaptive_sampling_method_max_frames": cli_args.adaptive_sampling_method_max_frames,
+                           "use_subclip_detection": cli_args.use_subclip_detection,
+                           "post_sampling_num_frames": cli_args.post_sampling_num_frames,
+                           "use_aks": cli_args.use_aks,}
 
         task.build_all_requests(
             limit=limit,

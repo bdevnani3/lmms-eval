@@ -279,7 +279,7 @@ def parse_eval_args() -> argparse.Namespace:
     parser.add_argument(
         "--max_frames_num",
         type=int,
-        default=32,
+        default=None,
         help="Max number of frames to use for video tasks",
     )
     parser.add_argument(
@@ -300,6 +300,36 @@ def parse_eval_args() -> argparse.Namespace:
         default=None,
         help="Cache clip similarity for video tasks. Provide the path to the file containing the clip similarity.",
     )
+    parser.add_argument(
+        "--adaptive_sampling_method",
+        type=str,
+        default="text",
+        help="Method to use for adaptive sampling. Can be 'combined', 'regions', or 'text'.",
+    )
+    parser.add_argument(
+        "--adaptive_sampling_method_max_frames",
+        type=int,
+        default=32,
+        help="Maximum number of frames to accept from adaptive sampling method.",
+    )
+    parser.add_argument(
+        "--use_subclip_detection",
+        action="store_true",
+        help="Whether to use subclip detection.",
+    )
+    parser.add_argument(
+        "--post_sampling_num_frames",
+        type=int,
+        default=32,
+        help="Number of frames to sample to feed into the LLM.",
+    )
+    parser.add_argument(
+        "--use_aks",
+        action="store_true",
+        help="Whether to use AKS for frame selection.",
+    )
+    
+    
     
     parser.add_argument("--process_with_media", action="store_true", help="Whether you will process you dataset with audio, image. By default set to False" "In case some benchmarks need to be processed with media, set this flag to True.")
     args = parser.parse_args()
@@ -509,6 +539,12 @@ def cli_evaluate_single(args: Union[argparse.Namespace, None] = None) -> None:
     print("*********im_resize_shape: ", args.im_resize_shape)
     print("*********max_frames_num: ", args.max_frames_num)
     print("*********DEBUG MODE************ ", args.debug)
+    print("*********Adaptive sampling method: ", args.adaptive_sampling_method)
+    print("*********Adaptive sampling method max frames: ", args.adaptive_sampling_method_max_frames)
+    print("*********Use subclip detection: ", args.use_subclip_detection)
+    print("*********Post sampling num frames: ", args.post_sampling_num_frames)
+    print("*********Use AKS: ", args.use_aks)
+
     results = evaluator.simple_evaluate(
         model=args.model,
         model_args=args.model_args,

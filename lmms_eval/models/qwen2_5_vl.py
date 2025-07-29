@@ -21,6 +21,7 @@ from lmms_eval.api.instance import Instance
 from lmms_eval.api.model import lmms
 from lmms_eval.api.registry import register_model
 from lmms_eval.models.model_utils.load_video import read_video_pyav_base64
+from lmms_eval.models.model_utils.smart_sampling import postprocessed_frame_indices
 
 try:
     from qwen_vl_utils import process_vision_info
@@ -44,7 +45,8 @@ class Qwen2_5_VL(lmms):
         use_cache=True,
         use_flash_attention_2: Optional[bool] = False,
         min_pixels: int = 256 * 28 * 28,
-        max_pixels: int = 1605632,
+        # max_pixels: int = 1605632,
+        max_pixels: int = 10000000000,
         max_num_frames: int = 32,
         use_custom_video_loader: Optional[bool] = False,
         fps: Optional[float] = None,  # Only applicable if use_custom_video_loader is True
@@ -190,11 +192,28 @@ class Qwen2_5_VL(lmms):
         re_ords = utils.Collator([reg.args for reg in requests], _collate, grouping=True)
         chunks = re_ords.get_batched(n=self.batch_size, batch_fn=None)
         for chunk in chunks:
-            contexts, all_gen_kwargs, doc_to_visual, doc_id, task, split = zip(*chunk)
+            contexts, all_gen_kwargs, doc_to_visual, doc_id, task, split, extra_args = zip(*chunk)
             task = task[0]
             split = split[0]
             visual_list = [doc_to_visual[0](self.task_dict[task][split][ids]) for ids in doc_id]
             gen_kwargs = all_gen_kwargs[0]
+            import copy
+
+            # Update args
+            temp_args = copy.deepcopy(extra_args[0])
+            temp_args["batched_doc_id"] = doc_id[0]
+            temp_args["task_type"] = task
+            temp_args["cache_clip_similarity"] = extra_args[0]["cache_clip_similarity"]
+            temp_args["text_prompt"] = contexts[0]
+            temp_args["adaptive_sampling_method"] = extra_args[0]["adaptive_sampling_method"]
+            temp_args["adaptive_sampling_method_max_frames"] = extra_args[0]["adaptive_sampling_method_max_frames"]
+            temp_args["use_subclip_detection"] = extra_args[0]["use_subclip_detection"]
+            temp_args["post_sampling_num_frames"] = extra_args[0]["post_sampling_num_frames"]
+            temp_args["use_aks"] = extra_args[0]["use_aks"]
+            if "max_frames_num" in extra_args[0] and extra_args[0]["max_frames_num"] is not None:
+                self.max_num_frames = extra_args[0]["max_frames_num"]
+            
+
 
             # Set default values for until and max_new_tokens
             until = [self.tokenizer.decode(self.eot_token_id)]
@@ -231,7 +250,11 @@ class Qwen2_5_VL(lmms):
                         first_frame = vr[0].asnumpy()
                         height, width = first_frame.shape[:2]
                         # max_pixels = height * width
-                        processed_visuals.append({"type": "video", "video": visual, "max_pixels": self.max_pixels, "min_pixels": self.min_pixels})
+                        processed_visuals.append({"type": "video", "video": visual, "max_pixels": self.max_pixels, 
+                                                  "min_pixels": self.min_pixels, "min_frames": self.max_num_frames,
+                                                  "max_frames": self.max_num_frames})
+                        # processed_visuals.append({"type": "video", "video": visual, "max_pixels": self.max_pixels, 
+                        #                           "min_pixels": self.min_pixels})
                     elif isinstance(visual, Image.Image):  # Handle both single and multiple images
                         base64_image = visual.convert("RGB")
                         buffer = BytesIO()
@@ -274,11 +297,31 @@ class Qwen2_5_VL(lmms):
             texts = [self.processor.apply_chat_template(msg, tokenize=False, add_generation_prompt=True) for msg in batched_messages]
             image_inputs, video_inputs = process_vision_info(batched_messages)
             if video_inputs is not None:
-                total_frames = video_inputs[0].shape[0]
-                indices = np.linspace(0, total_frames - 1, self.max_num_frames, dtype=int)
-                # Append the last frame index if not already included
-                if total_frames - 1 not in indices:
-                    indices = np.append(indices, total_frames - 1)
+                if temp_args["use_subclip_detection"]:
+                    indices = postprocessed_frame_indices(doc_id=temp_args["batched_doc_id"], 
+                                task_type=temp_args["task_type"],
+                                input_size=video_inputs[0].shape[0],
+                                goal_num_frames=temp_args["post_sampling_num_frames"], 
+                                adaptive_sampling_method_max_frames=temp_args["adaptive_sampling_method_max_frames"], 
+                                use_subclip_detection=True,)
+                    assert len(indices) == temp_args["post_sampling_num_frames"]
+                    indices = np.array(indices)
+                elif temp_args["use_aks"]:
+                    indices = postprocessed_frame_indices(doc_id=temp_args["batched_doc_id"], 
+                                task_type=temp_args["task_type"],
+                                input_size=video_inputs[0].shape[0],
+                                goal_num_frames=temp_args["post_sampling_num_frames"], 
+                                adaptive_sampling_method_max_frames=temp_args["adaptive_sampling_method_max_frames"], 
+                                use_aks=temp_args["use_aks"])
+                    assert len(indices) == temp_args["post_sampling_num_frames"]
+                    indices = np.array(indices)
+                else:                                      
+                    total_frames = video_inputs[0].shape[0]
+                    indices = np.linspace(0, total_frames - 1, self.max_num_frames, dtype=int)
+                    # Append the last frame index if not already included
+                    if total_frames - 1 not in indices:
+                        indices = np.append(indices, total_frames - 1)
+
                 video_inputs[0] = video_inputs[0][indices]
             inputs = self.processor(text=texts, images=image_inputs, videos=video_inputs, padding=True, return_tensors="pt")
 
@@ -308,7 +351,7 @@ class Qwen2_5_VL(lmms):
                 top_p=current_gen_kwargs["top_p"],
                 num_beams=current_gen_kwargs["num_beams"],
                 max_new_tokens=current_gen_kwargs["max_new_tokens"],
-                use_cache=self.use_cache,
+                use_cache=self.use_cache
             )
 
             generated_ids_trimmed = [out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, cont)]

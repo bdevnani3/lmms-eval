@@ -1,0 +1,139 @@
+Using pip 25.0 from /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/pip (python 3.10)
+Requirement already satisfied: flash-attn in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (2.7.4.post1)
+Requirement already satisfied: torch in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from flash-attn) (2.7.0)
+Requirement already satisfied: einops in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from flash-attn) (0.8.1)
+Requirement already satisfied: filelock in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (3.18.0)
+Requirement already satisfied: typing-extensions>=4.10.0 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (4.13.2)
+Requirement already satisfied: sympy>=1.13.3 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (1.14.0)
+Requirement already satisfied: networkx in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (3.4.2)
+Requirement already satisfied: jinja2 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (3.1.6)
+Requirement already satisfied: fsspec in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (2023.10.0)
+Requirement already satisfied: nvidia-cuda-nvrtc-cu12==12.6.77 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (12.6.77)
+Requirement already satisfied: nvidia-cuda-runtime-cu12==12.6.77 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (12.6.77)
+Requirement already satisfied: nvidia-cuda-cupti-cu12==12.6.80 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (12.6.80)
+Requirement already satisfied: nvidia-cudnn-cu12==9.5.1.17 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (9.5.1.17)
+Requirement already satisfied: nvidia-cublas-cu12==12.6.4.1 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (12.6.4.1)
+Requirement already satisfied: nvidia-cufft-cu12==11.3.0.4 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (11.3.0.4)
+Requirement already satisfied: nvidia-curand-cu12==10.3.7.77 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (10.3.7.77)
+Requirement already satisfied: nvidia-cusolver-cu12==11.7.1.2 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (11.7.1.2)
+Requirement already satisfied: nvidia-cusparse-cu12==12.5.4.2 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (12.5.4.2)
+Requirement already satisfied: nvidia-cusparselt-cu12==0.6.3 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (0.6.3)
+Requirement already satisfied: nvidia-nccl-cu12==2.26.2 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (2.26.2)
+Requirement already satisfied: nvidia-nvtx-cu12==12.6.77 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (12.6.77)
+Requirement already satisfied: nvidia-nvjitlink-cu12==12.6.85 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (12.6.85)
+Requirement already satisfied: nvidia-cufile-cu12==1.11.1.6 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (1.11.1.6)
+Requirement already satisfied: triton==3.3.0 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from torch->flash-attn) (3.3.0)
+Requirement already satisfied: setuptools>=40.8.0 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from triton==3.3.0->torch->flash-attn) (75.8.0)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from sympy>=1.13.3->torch->flash-attn) (1.3.0)
+Requirement already satisfied: MarkupSafe>=2.0 in /coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages (from jinja2->torch->flash-attn) (3.0.2)
+Generating clip cache for mlvu_dev saving clip similarity at /data/jjain45/bhavika/results/llava_onevision/mlvu_dev/clip_cache_generation/clip_cache_similarity/
+/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/transformers/utils/hub.py:105: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--num_machines` was set to a value of `1`
+	`--mixed_precision` was set to a value of `'no'`
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/transformers/utils/hub.py:105: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[32m2025-05-05 08:21:06.663[0m | [1mINFO    [0m | [36m__main__[0m:[36mcli_evaluate[0m:[36m332[0m - [1mVerbosity set to INFO[0m
+Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[32m2025-05-05 08:21:06.995[0m | [33m[1mWARNING [0m | [36mlmms_eval.tasks[0m:[36m_get_task_and_group[0m:[36m473[0m - [33m[1mThe tag coco_karpathy is already registered as a group, this tag will not be registered. This may affect tasks you want to call.[0m
+[32m2025-05-05 08:21:07.000[0m | [33m[1mWARNING [0m | [36mlmms_eval.tasks[0m:[36m_get_task_and_group[0m:[36m473[0m - [33m[1mThe tag coco_karpathy is already registered as a group, this tag will not be registered. This may affect tasks you want to call.[0m
+[32m2025-05-05 08:21:10.279[0m | [1mINFO    [0m | [36m__main__[0m:[36mcli_evaluate_single[0m:[36m415[0m - [1mEvaluation tracker args: {'output_path': '/data/jjain45/bhavika/results/llava_onevision/mlvu_dev/clip_cache_generation'}[0m
+[32m2025-05-05 08:21:10.280[0m | [1mINFO    [0m | [36m__main__[0m:[36mcli_evaluate_single[0m:[36m504[0m - [1mSelected Tasks: ['mlvu_dev'][0m
+*********Temporal aggregation:  None
+*********im_resize_shape:  16
+*********max_frames_num:  1600
+*********DEBUG MODE************  False
+[32m2025-05-05 08:21:10.286[0m | [1mINFO    [0m | [36mlmms_eval.evaluator[0m:[36msimple_evaluate[0m:[36m155[0m - [1mSetting random seed to 0 | Setting numpy seed to 1234 | Setting torch manual seed to 1234[0m
+Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+Ignored error while writing commit hash to /data/jjain45/bhavika/hub/datasets--sy1998--MLVU_dev/refs/main: [Errno 13] Permission denied: '/data'.
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]
+Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+Ignored error while writing commit hash to /data/jjain45/bhavika/hub/datasets--sy1998--MLVU_dev/refs/main: [Errno 13] Permission denied: '/data'.
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]
+Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+Ignored error while writing commit hash to /data/jjain45/bhavika/hub/datasets--sy1998--MLVU_dev/refs/main: [Errno 13] Permission denied: '/data'.
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]
+Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+Ignored error while writing commit hash to /data/jjain45/bhavika/hub/datasets--sy1998--MLVU_dev/refs/main: [Errno 13] Permission denied: '/data'.
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]
+Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+Ignored error while writing commit hash to /data/jjain45/bhavika/hub/datasets--sy1998--MLVU_dev/refs/main: [Errno 13] Permission denied: '/data'.
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/tenacity/__init__.py", line 470, in __call__
+    result = fn(*args, **kwargs)
+  File "/coc/flash9/bdevnani3/final_lmms_eval/lmms-eval/lmms_eval/api/task.py", line 946, in download
+    cache_path = snapshot_download(repo_id=self.DATASET_PATH, revision=revision, repo_type="dataset", force_download=force_download, etag_timeout=60)
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/huggingface_hub/_snapshot_download.py", line 296, in snapshot_download
+    thread_map(
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/tqdm/contrib/concurrent.py", line 69, in thread_map
+    return _executor_map(ThreadPoolExecutor, fn, *iterables, **tqdm_kwargs)
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/tqdm/contrib/concurrent.py", line 51, in _executor_map
+    return list(tqdm_class(ex.map(fn, *iterables, chunksize=chunksize), **kwargs))
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/tqdm/std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/concurrent/futures/_base.py", line 621, in result_iterator
+    yield _result_or_cancel(fs.pop())
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/concurrent/futures/_base.py", line 319, in _result_or_cancel
+    return fut.result(timeout)
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/concurrent/futures/_base.py", line 458, in result
+    return self.__get_result()
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/huggingface_hub/_snapshot_download.py", line 270, in _inner_hf_hub_download
+    return hf_hub_download(
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 961, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1078, in _hf_hub_download_to_cache_dir
+    os.makedirs(os.path.dirname(blob_path), exist_ok=True)
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/os.py", line 215, in makedirs
+    makedirs(head, exist_ok=exist_ok)
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/os.py", line 215, in makedirs
+    makedirs(head, exist_ok=exist_ok)
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/os.py", line 215, in makedirs
+    makedirs(head, exist_ok=exist_ok)
+  [Previous line repeated 2 more times]
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/os.py", line 225, in makedirs
+    mkdir(name, mode)
+PermissionError: [Errno 13] Permission denied: '/data'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/coc/flash9/bdevnani3/final_lmms_eval/lmms-eval/lmms_eval/__main__.py", line 367, in cli_evaluate
+    results, samples = cli_evaluate_single(args)
+  File "/coc/flash9/bdevnani3/final_lmms_eval/lmms-eval/lmms_eval/__main__.py", line 512, in cli_evaluate_single
+    results = evaluator.simple_evaluate(
+  File "/coc/flash9/bdevnani3/final_lmms_eval/lmms-eval/lmms_eval/utils.py", line 533, in _wrapper
+    return fn(*args, **kwargs)
+  File "/coc/flash9/bdevnani3/final_lmms_eval/lmms-eval/lmms_eval/evaluator.py", line 171, in simple_evaluate
+    task_dict = get_task_dict(tasks, task_manager)
+  File "/coc/flash9/bdevnani3/final_lmms_eval/lmms-eval/lmms_eval/tasks/__init__.py", line 558, in get_task_dict
+    task_name_from_string_dict = task_manager.load_task_or_group(
+  File "/coc/flash9/bdevnani3/final_lmms_eval/lmms-eval/lmms_eval/tasks/__init__.py", line 372, in load_task_or_group
+    all_loaded_tasks = dict(collections.ChainMap(*map(self._load_individual_task_or_group, task_list)))
+  File "/coc/flash9/bdevnani3/final_lmms_eval/lmms-eval/lmms_eval/tasks/__init__.py", line 289, in _load_individual_task_or_group
+    return _load_task(task_config, task=name_or_config)
+  File "/coc/flash9/bdevnani3/final_lmms_eval/lmms-eval/lmms_eval/tasks/__init__.py", line 259, in _load_task
+    task_object = ConfigurableTask(config=config, model_name=self.model_name)
+  File "/coc/flash9/bdevnani3/final_lmms_eval/lmms-eval/lmms_eval/api/task.py", line 720, in __init__
+    self.download(self.config.dataset_kwargs)
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/tenacity/__init__.py", line 330, in wrapped_f
+    return self(f, *args, **kw)
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/tenacity/__init__.py", line 467, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/tenacity/__init__.py", line 368, in iter
+    result = action(retry_state)
+  File "/coc/flash9/bdevnani3/anaconda/envs/final_lmms_eval/lib/python3.10/site-packages/tenacity/__init__.py", line 411, in exc_check
+    raise retry_exc from fut.exception()
+tenacity.RetryError: RetryError[<Future at 0x7f32e4695f60 state=finished raised PermissionError>]
+[32m2025-05-05 08:21:19.509[0m | [31m[1mERROR   [0m | [36m__main__[0m:[36mcli_evaluate[0m:[36m386[0m - [31m[1mError during evaluation: RetryError[<Future at 0x7f32e4695f60 state=finished raised PermissionError>]. Please set `--verbosity=DEBUG` to get more information.[0m

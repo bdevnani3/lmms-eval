@@ -423,6 +423,11 @@ class Llava_OneVision(lmms):
             temp_args["task_type"] = task
             temp_args["cache_clip_similarity"] = extra_args[0]["cache_clip_similarity"]
             temp_args["text_prompt"] = batched_contexts[0]
+            temp_args["adaptive_sampling_method"] = extra_args[0]["adaptive_sampling_method"]
+            temp_args["adaptive_sampling_method_max_frames"] = extra_args[0]["adaptive_sampling_method_max_frames"]
+            temp_args["use_subclip_detection"] = extra_args[0]["use_subclip_detection"]
+            temp_args["post_sampling_num_frames"] = extra_args[0]["post_sampling_num_frames"]
+            temp_args["use_aks"] = extra_args[0]["use_aks"]
             # we assume all gen kwargs in the batch are the same
             # this is safe to assume because the `grouper` object ensures it.
             gen_kwargs = all_gen_kwargs[0]
@@ -567,6 +572,7 @@ class Llava_OneVision(lmms):
                     # cont = self.model.generate(qwen_input_ids, pad_token_id=pad_token_ids, images=image_tensor, use_cache=self.use_cache, **gen_kwargs)
 
                 text_outputs = self.tokenizer.batch_decode(cont, skip_special_tokens=True)
+
             except Exception as e:
                 if "cache_clip_similarity" in extra_args[0] and extra_args[0]["cache_clip_similarity"] is not None:
                     # dummy text output

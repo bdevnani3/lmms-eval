@@ -195,7 +195,8 @@ class Qwen2_VL(lmms):
         re_ords = utils.Collator([reg.args for reg in requests], _collate, grouping=True)
         chunks = re_ords.get_batched(n=self.batch_size, batch_fn=None)
         for chunk in chunks:
-            contexts, all_gen_kwargs, doc_to_visual, doc_id, task, split = zip(*chunk)
+            import pdb; pdb.set_trace()
+            contexts, all_gen_kwargs, doc_to_visual, doc_id, task, split, extra_args = zip(*chunk)
             task = task[0]
             split = split[0]
 
@@ -210,6 +211,18 @@ class Qwen2_VL(lmms):
             else:
                 visual_list = self.flatten(visual_list)  # Assumes doc_to_visual returns list of lists
 
+            import copy
+            temp_args = copy.deepcopy(extra_args[0])
+            temp_args["batched_doc_id"] = doc_id[0]
+            temp_args["task_type"] = task
+            temp_args["cache_clip_similarity"] = extra_args[0]["cache_clip_similarity"]
+            temp_args["text_prompt"] = contexts[0]
+            temp_args["adaptive_sampling_method"] = extra_args[0]["adaptive_sampling_method"]
+            temp_args["adaptive_sampling_method_max_frames"] = extra_args[0]["adaptive_sampling_method_max_frames"]
+            temp_args["use_subclip_detection"] = extra_args[0]["use_subclip_detection"]
+            temp_args["post_sampling_num_frames"] = extra_args[0]["post_sampling_num_frames"]
+            temp_args["use_aks"] = extra_args[0]["use_aks"]
+            
             gen_kwargs = all_gen_kwargs[0] if all_gen_kwargs else {}
 
             # Set default values for until and max_new_tokens
@@ -375,6 +388,7 @@ class Qwen2_VL(lmms):
                 num_beams=current_gen_kwargs["num_beams"],
                 max_new_tokens=current_gen_kwargs["max_new_tokens"],
                 use_cache=self.use_cache,
+                **temp_args
             )
 
             # Decode generated sequences, excluding input tokens
